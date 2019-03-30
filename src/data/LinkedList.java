@@ -1,21 +1,30 @@
+package data;
+
+import shapes.Polygon;
+
+import java.util.Iterator;
+
 /*
- * Name: 		Jack Mennie
- * Number:		c3238040
- * Class:		MyPolygons
- * Description:	implements a circular doubly linked data structure
- *              contains a single sentinel node to mark the head/tail of container for the polygon objects
+ * Name:		Jack Mennie
+ * Number:		c3238004
+ * Class:		data.LinkedList
+ * Description:	- circular linkedlist
+ * 				- creates a new iterator
+ * 				- contains iterator
  */
 
-public class MyPolygons {
-    private Node sentinel;
-    private Node current;
+public class LinkedList<T> implements Iterable<T> {
+    private Node<T> sentinel;
     private int size;
 
     /**
      * Creates the sentinel node
      */
-    public MyPolygons() {
+    public LinkedList() {
         sentinel = new Node();
+        sentinel.setNext(sentinel);
+        sentinel.setPrevious(sentinel);
+        size = 0;
     }
 
     /**
@@ -135,5 +144,10 @@ public class MyPolygons {
         sentinel.setNext(current);
         sentinel.setPrevious(current);
         size++;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return null;
     }
 }

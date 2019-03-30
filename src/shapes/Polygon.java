@@ -1,7 +1,7 @@
-/*
+package shapes;/*
  * Name: 		Jack Mennie
  * Number:		c3238040
- * Class:		Polygon
+ * Class:		shapes.Polygon
  * Implmements:	ComparePoly
  * Description:	stores point objects in an array vertices
  * 				calculates the area of the polygon
@@ -10,7 +10,7 @@
  * 					if B polygon is smaller then A, or if both the same, checks if the distance of B is closer then A.
  */
 
-public class Polygon implements ComparePoly {
+public class Polygon extends PlanarShape {
     private Point[] vertices; //array to store the objects
 
     /**
@@ -49,12 +49,13 @@ public class Polygon implements ComparePoly {
      * calculates the area of the polygon
      * @return area
      */
-    private float calculateArea() {
+    @Override
+    public float area() {
         float sum = 0.0f;
 
         for(int i = 0; i < vertices.length - 1; i++) {
             float x = vertices[i+1].getXCoordinate() + vertices[i].getXCoordinate();
-            float y = vertices[i+1].getYCoordinate() + vertices[i].getYCoordinate();
+            float y = vertices[i+1].getYCoordinate() - vertices[i].getYCoordinate();
 
             sum += x*y;
         }
@@ -66,7 +67,8 @@ public class Polygon implements ComparePoly {
      * finds the point that is closest to the origin
      * @return distance
      */
-    private float findClosestToOrigin() {
+    @Override
+    public float originDistance() {
         float distance = vertices[0].getDistance();
 
         for(Point point : vertices) {
@@ -81,41 +83,16 @@ public class Polygon implements ComparePoly {
      * returns a string which is the polygon in format [(x,y),(x,y)]: area
      * @return output
      */
+    @Override
     public String toString() {
         String output = "";
 
-        for (Point point : vertices) {
-            output += point;
+        for(int i = 0; i < vertices.length-1; i++) {
+            output += vertices[i];
         }
 
-        String formattedArea = String.format("%4.2f", calculateArea());
+        String formattedArea = String.format("%5.2f", area());
 
-        return "[" + output + "]: " + formattedArea;
-    }
-
-    /**
-     * used for ordering the lists
-     * @param o
-     * @return true/false
-     */
-    @Override
-    public boolean compare(Object o) {
-        Polygon temp = (Polygon)o;
-
-        float min = this.calculateArea() - this.calculateArea()*0.0005f; //0.05%
-        float max = this.calculateArea() + this.calculateArea()*0.0005f;
-
-        System.out.println("MIN: " + min + ", actual: " + this.calculateArea() + ". MAX: " + max);
-
-        if(min < temp.calculateArea() && temp.calculateArea() < max) {
-            if(temp.findClosestToOrigin() < this.findClosestToOrigin()) {
-                return true;
-            }
-
-        } else if(temp.calculateArea() < this.calculateArea()) {
-            return true;
-        }
-
-        return false;
+        return "POLY=[" + output + "]: " + formattedArea;
     }
 }

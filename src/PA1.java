@@ -10,6 +10,9 @@
  * 				-prints both unordered list, and ordered list
  */
 
+import shapes.Point;
+import shapes.Polygon;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -33,10 +36,11 @@ public class PA1 {
         }
 
         app.createList();
+
         app.orderList();
 
-        app.printList("unordered");
 
+        app.printList("unordered");
         app.printList("ordered");
     }
 
@@ -88,7 +92,7 @@ public class PA1 {
             //Each step will go onto the next process. e.g POLYGON -> SIZE
             switch (inputType) {
                     case POLYGON:
-                        //Creates a new Polygon
+                        //Creates a new shapes.Polygon
                         poly = new Polygon();
                         inputType = InputType.SIZE;
                         break;
@@ -106,7 +110,7 @@ public class PA1 {
                         //Sets the y-coordinate of a point
                         point.setYCoordinate(Float.parseFloat(value));
 
-                        //Point now has two values, so add to Polygon
+                        //shapes.Point now has two values, so add to shapes.Polygon
                         poly.addPoint(point, position);
 
                         //Reset point so we don't get any reference issues
@@ -182,10 +186,22 @@ public class PA1 {
                 orderedList.reset();
                 //Loop through ordered list to find where to insert the current item
                 for(int j = 0; j < orderedList.getSize(); j++) {
-                    if(orderedList.getCurrent().getData().compare(unorderedList.getCurrent().getData())) {
+                    if (orderedList.getCurrent().getData().compare(unorderedList.getCurrent().getData())) {
+                        //Area is smaller or closer to origin hence insert before current, and then go to the next unordered item
                         orderedList.insert(unorderedList.getCurrent().getData());
                         break;
                     } else {
+                        /* Until now, j will always be 0 if area is smaller
+                            So the last item will always be appended, but then
+                            we need to check if items after that will be inserted
+                            in the correct spot, hence increasing the size once
+                            appended.
+                         */
+                        if(j == orderedList.getSize()-1) {
+                            orderedList.append(unorderedList.getCurrent().getData());
+                            j = orderedList.getSize();
+                        }
+
                         orderedList.next();
                     }
                 }

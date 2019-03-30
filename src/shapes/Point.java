@@ -1,7 +1,9 @@
+package shapes;
+
 /*
  * Name: 		Jack Mennie
  * Number:		c3238004
- * Class: 		Point.java
+ * Class: 		shapes.Point.java
  * Description:	Holds the x and y cordinate of a polygon vertice.
  * 				Calculates distance of point from origin.
  * 				Returns point to string as (x,y)
