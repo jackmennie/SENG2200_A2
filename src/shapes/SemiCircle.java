@@ -7,6 +7,7 @@ public class SemiCircle extends PlanarShape {
      * Sets the size of the polygon
      * @param size
      */
+    @Override
     public void setSize(int size) {
         vertices = new Point[size+1];
     }
@@ -15,6 +16,7 @@ public class SemiCircle extends PlanarShape {
      * returns the size of the polygon
      * @return size
      */
+    @Override
     public int getSize() {
         return vertices.length;
     }
@@ -24,6 +26,7 @@ public class SemiCircle extends PlanarShape {
      * @param point
      * @param position
      */
+    @Override
     public void addPoint(Point point, int position) {
         vertices[position] = point;
     }
@@ -31,6 +34,7 @@ public class SemiCircle extends PlanarShape {
     /**
      * adds the first point to the last index
      */
+    @Override
     public void addFirstPoint() {
         vertices[vertices.length-1] = vertices[0];
     }
@@ -120,4 +124,6 @@ public class SemiCircle extends PlanarShape {
 
         return radius;
     }
+
+
 }

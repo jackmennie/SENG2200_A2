@@ -7,4 +7,4 @@ Author: Jack Mennie
 ## To Compile and run:
 
 - `javac */*.java`
-- `java src/PA1`
+- `java src/PA2a`

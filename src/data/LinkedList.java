@@ -8,7 +8,7 @@ import java.util.Iterator;
  * Name:		Jack Mennie
  * Number:		c3238004
  * Class:		data.LinkedList
- * Description:	- circular linkedlist
+ * Description:	- circular linked-list
  * 				- creates a new iterator
  * 				- contains iterator
  */
@@ -21,7 +21,7 @@ public class LinkedList<T> implements Iterable<T> {
      * Creates the sentinel node
      */
     public LinkedList() {
-        sentinel = new Node();
+        sentinel = new Node<>();
         sentinel.setNext(sentinel);
         sentinel.setPrevious(sentinel);
         size = 0;
@@ -30,74 +30,39 @@ public class LinkedList<T> implements Iterable<T> {
     /**
      * adds a node at the end of the list
      * current is still the head of the list
-     * @param poly
+     * @param data
      */
-    public void prepend(Polygon poly) {
-        Node startNode = sentinel.getNext();
+    public void prepend(T data) {
+        Node<T> startNode = sentinel.getNext();
         if(size != 0) {
-            Node temp = new Node(poly);
+            Node<T> temp = new Node<>(data);
             temp.setNext(startNode);
             temp.setPrevious(sentinel);
             startNode.setPrevious(temp);
             sentinel.setNext(temp);
-            current = sentinel.getNext();
             size++;
         } else {
-            createNewList(poly);
+            createNewList(data);
         }
     }
 
     /**
      * creates a node at the start of the list
      * current is still the head of the list
-     * @param poly
+     * @param data
      */
-    public void append(Polygon poly) {
-        Node endNode = sentinel.getPrevious();
+    public void append(T data) {
+        Node<T> endNode = sentinel.getPrevious();
         if (size != 0) {
-            Node temp = new Node(poly);
+            Node<T> temp = new Node<>(data);
             temp.setNext(sentinel);
             temp.setPrevious(endNode);
             endNode.setNext(temp);
             sentinel.setPrevious(temp);
-            current = sentinel.getNext();
             size++;
         } else {
-            createNewList(poly);
+            createNewList(data);
         }
-    }
-
-    /**
-     * inserts a node before the current node
-     * and then sets that node the new current
-     * @param poly
-     */
-    public void insert(Polygon poly) {
-        Node temp = new Node(poly);
-        temp.setNext(current);
-        temp.setPrevious(current.getPrevious());
-        current.getPrevious().setNext(temp);
-        current.setPrevious(temp);
-        current = temp;
-        size++;
-    }
-
-    /**
-     * sets the next item in the list the current node
-     */
-    public void next() {
-        if(current.getNext() != sentinel) {
-            current = current.getNext();
-        } else {
-            current = sentinel.getNext();
-        }
-    }
-
-    /**
-     * resets the current node to the head of the list
-     */
-    public void reset() {
-        current = sentinel.getNext();
     }
 
     /** returns the current node of the list
@@ -117,14 +82,6 @@ public class LinkedList<T> implements Iterable<T> {
     }
 
     /**
-     * returns the current node of the list
-     * @return
-     */
-    public Node getCurrent() {
-        return current;
-    }
-
-    /**
      * Returns the size of the list
      * @return
      */
@@ -137,8 +94,8 @@ public class LinkedList<T> implements Iterable<T> {
      * This adds an initial node to the list
      * @param poly
      */
-    private void createNewList(Polygon poly) {
-        current = new Node(poly);
+    private void createNewList(T data) {
+        Node<T> current = new Node<>(data);
         current.setNext(sentinel);
         current.setPrevious(sentinel);
         sentinel.setNext(current);

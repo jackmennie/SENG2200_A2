@@ -19,7 +19,8 @@ public class Circle extends PlanarShape {
      * Precondition: point is provided by text file
      * Postcondition: set the centre point of the circle
      */
-    public void addCircle(Point point){
+    @Override
+    public void addPoint(Point point, int position){
         centre = point;
     }
 
@@ -70,4 +71,14 @@ public class Circle extends PlanarShape {
     public float originDistance() {
         return centre.getDistance()-radius;
     }
+
+    /** FOLLOWING METHODS NOT NEEDED */
+    @Override
+    public void setSize(int size) { }
+
+    @Override
+    public int getSize() { return 0; }
+
+    @Override
+    public void addFirstPoint() {}
 }

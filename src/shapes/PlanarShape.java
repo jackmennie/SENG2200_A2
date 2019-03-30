@@ -13,6 +13,11 @@ public abstract class PlanarShape implements Comparable<PlanarShape> {
     public abstract float area();
     public abstract float originDistance();
 
+    public abstract void setSize(int size);
+    public abstract int getSize();
+    public abstract void addPoint(Point point, int position);
+    public abstract void addFirstPoint();
+
     /**
      * used for ordering the lists
      * @param shape

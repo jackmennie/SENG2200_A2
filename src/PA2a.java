@@ -1,30 +1,31 @@
 /*
- * Name:		Jack Mennie
- * Number:		c3238004
- * ClassName:	PA1
- * Description:	scans polygons file and adds the data to the following:
- * 				-gets polygon data and determines how many vertices are in that polygon
- * 				-stores each point in array, which each point object stores x, y coordinate
- * 				-stores each polygon in a list MyPolygons
- * 				-orders the list
- * 				-prints both unordered list, and ordered list
+ * Class: 			PA2a.java
+ * Name:			Jack Mennie
+ * Number:			c3238004
+ * Description:		- main class for adding polygons using iterators
+ * 					- inputs a text file via command line
+ * 					- adds the shape into the list using the shapeFactory function
+ * 					- prints the unordered list
+ * 					- orders the items in the list
+ * 					- prints the ordered list.
  */
 
-import shapes.Point;
-import shapes.Polygon;
+import data.LinkedList;
+import data.SortedList;
+import shapes.*;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Scanner;
 
-public class PA1 {
+public class PA2a {
     private Scanner input;
-    private MyPolygons unorderedList;
-    private MyPolygons orderedList;
+    private LinkedList<PlanarShape> unorderedList;
+    private SortedList<PlanarShape> orderedList;
 
     public static void main(String[] args) {
-        PA1 app = new PA1();
+        PA2a app = new PA2a();
 
         //Read file from arguments
         try {
@@ -50,8 +51,8 @@ public class PA1 {
      * @param file
      */
     private void setUp(String file)  {
-        unorderedList = new MyPolygons();
-        orderedList = new MyPolygons();
+        unorderedList = new LinkedList<>();
+        orderedList = new SortedList<>();
 
         try {
             input = new Scanner(new BufferedReader(new FileReader("src/"+ file)));
@@ -68,7 +69,7 @@ public class PA1 {
         System.out.println("1. Creating unordered list");
 
         Point point = new Point();      //point is required to be instantiated for cases to work
-        Polygon poly = new Polygon();   //polygon is required to be instantiated for cases to work
+        PlanarShape shape = new Polygon();   //PlanarShape is required to be instantiated for cases to work hence default to polygon
 
         /* position is used to add the point to the certain index of the array
            This is done because we set the size of the array after we create the polygon
@@ -77,7 +78,7 @@ public class PA1 {
         int position = 0;
 
         //ENUM InputType which determines what step to add the data to
-        InputType inputType = InputType.POLYGON;
+        InputType inputType = InputType.SHAPE;
 
         while(input.hasNext()) {
             String value  = input.next(); //set the value to the input.next so it can be reused later
@@ -91,50 +92,82 @@ public class PA1 {
             //Switch through the steps in the create process
             //Each step will go onto the next process. e.g POLYGON -> SIZE
             switch (inputType) {
-                    case POLYGON:
-                        //Creates a new shapes.Polygon
-                        poly = new Polygon();
+                case SHAPE:
+                    //Creates a new shape
+                    shape = shapeFactory(value);
+
+                    //To keep the same flow, this checks if the type requires the size or not.
+                    if(requireSize(shape)) {
                         inputType = InputType.SIZE;
-                        break;
-                    case SIZE:
-                        //Sets the size of the array in polygon
-                        poly.setSize(Integer.parseInt(value));
+                    } else {
                         inputType = InputType.XCOORDINATE;
-                        break;
-                    case XCOORDINATE:
-                        //Sets the x-coordinate of a point
-                        point.setXCoordinate(Float.parseFloat(value));
-                        inputType = InputType.YCOORDINATE;
-                        break;
-                    case YCOORDINATE:
-                        //Sets the y-coordinate of a point
-                        point.setYCoordinate(Float.parseFloat(value));
+                    }
 
-                        //shapes.Point now has two values, so add to shapes.Polygon
-                        poly.addPoint(point, position);
+                    break;
+                case SIZE:
+                    //Sets the size of the array in polygon
+                    shape.setSize(Integer.parseInt(value));
+                    inputType = InputType.XCOORDINATE;
+                    break;
+                case XCOORDINATE:
+                    //Sets the x-coordinate of a point
+                    point.setXCoordinate(Float.parseFloat(value));
+                    inputType = InputType.YCOORDINATE;
+                    break;
+                case YCOORDINATE:
+                    //Sets the y-coordinate of a point
+                    point.setYCoordinate(Float.parseFloat(value));
 
-                        //Reset point so we don't get any reference issues
-                        point = new Point();
-                        position++;
+                    //shapes.Point now has two values, so add to shapes.Polygon
+                    shape.addPoint(point, position);
 
-                        //Check if all points have been added or not
-                        if(position == poly.getSize()-1) {
-                            //All points have been added, hence:
+                    //Reset point so we don't get any reference issues
+                    point = new Point();
+                    position++;
 
-                            poly.addFirstPoint(); //add the first point to the array
-                            unorderedList.append(poly); //append polygon to the list
+                    //Check if all points have been added or not
+                    if(position == shape.getSize()-1) {
+                        //All points have been added, hence:
 
-                            //Set the input type back to polygon to add a new polygon
-                            inputType = InputType.POLYGON;
-                            position = 0; //reset position to add items to the start of the array
+                        shape.addFirstPoint(); //add the first point to the array
+                        unorderedList.append(shape); //append polygon to the list
+
+                        //Set the input type back to polygon to add a new polygon
+                        inputType = InputType.SHAPE;
+                        position = 0; //reset position to add items to the start of the array
+                    } else {
+                        //More points to be added
+                        if(requireRadius()) {
+                            inputType = InputType.RADIUS;
                         } else {
-                            //More points to be added
                             inputType = InputType.XCOORDINATE;
                         }
-                        break;
+                    }
+                    break;
             }
         }
         input.close();
+    }
+
+    private PlanarShape shapeFactory(String input) {
+        switch(input) {
+            case "P":
+                return new Polygon();
+            default:
+                return null;
+        }
+    }
+
+    private boolean requireSize(PlanarShape shape) {
+        if(shape instanceof Polygon)  {
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean requireRadius(PlanarShape shape) {
+        if(shape instanceof Circle)
     }
 
     /**

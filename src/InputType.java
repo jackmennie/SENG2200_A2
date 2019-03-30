@@ -1,6 +1,7 @@
 public enum InputType {
-    POLYGON,
+    SHAPE,
     SIZE,
     XCOORDINATE,
-    YCOORDINATE
+    YCOORDINATE,
+    RADIUS
 }
