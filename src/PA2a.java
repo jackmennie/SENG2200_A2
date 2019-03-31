@@ -11,18 +11,19 @@
  */
 
 import data.LinkedList;
-import data.SortedList;
+import data.SortedLinkedList;
 import shapes.*;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class PA2a {
     private Scanner input;
     private LinkedList<PlanarShape> unorderedList;
-    private SortedList<PlanarShape> orderedList;
+    private LinkedList<PlanarShape> orderedList = new SortedLinkedList<>();
 
     public static void main(String[] args) {
         PA2a app = new PA2a();
@@ -52,7 +53,7 @@ public class PA2a {
      */
     private void setUp(String file)  {
         unorderedList = new LinkedList<>();
-        orderedList = new SortedList<>();
+
 
         try {
             input = new Scanner(new BufferedReader(new FileReader("src/"+ file)));
@@ -137,7 +138,7 @@ public class PA2a {
                         position = 0; //reset position to add items to the start of the array
                     } else {
                         //More points to be added
-                        if(requireRadius()) {
+                        if(requireRadius(shape)) {
                             inputType = InputType.RADIUS;
                         } else {
                             inputType = InputType.XCOORDINATE;
@@ -167,7 +168,11 @@ public class PA2a {
     }
 
     private boolean requireRadius(PlanarShape shape) {
-        if(shape instanceof Circle)
+        if(shape instanceof Circle) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -181,23 +186,22 @@ public class PA2a {
             case "unordered":
                 System.out.println("2. Printing unordered list");
 
-                for(int i = 0; i < unorderedList.getSize(); i++) {
-                    System.out.println("\t" + unorderedList.getCurrent().getData());
-                    unorderedList.next();
+                Iterator<PlanarShape> unorderedListIterator = unorderedList.iterator();
+
+                while(unorderedListIterator.hasNext()) {
+                    System.out.println("\t" + unorderedListIterator.next());
                 }
 
-                unorderedList.reset();
                 break;
             case "ordered":
-                orderedList.reset();
                 System.out.println("4. Printing ordered list");
 
-                for(int i = 0; i < orderedList.getSize(); i++) {
-                    System.out.println("\t" + orderedList.getCurrent().getData());
-                    orderedList.next();
+                Iterator<PlanarShape> orderedListIterator = orderedList.iterator();
+
+                while(orderedListIterator.hasNext()) {
+                    System.out.println("\t" + orderedListIterator.next());
                 }
 
-                orderedList.reset();
                 break;
             default: break;
         }
@@ -209,37 +213,43 @@ public class PA2a {
     private void orderList() {
         System.out.println("3. Ordering the list");
 
-        //Loop through each item in unordered list and place in new list
-        for(int i = 0; i < unorderedList.getSize(); i++) {
-            //if list is empty then we dont care where the first item goes so append will suffice
-            if(orderedList.getSize() == 0) {
-                orderedList.append(unorderedList.getCurrent().getData());
-            } else {
-                //ensure we are checking from the start of the list
-                orderedList.reset();
-                //Loop through ordered list to find where to insert the current item
-                for(int j = 0; j < orderedList.getSize(); j++) {
-                    if (orderedList.getCurrent().getData().compare(unorderedList.getCurrent().getData())) {
-                        //Area is smaller or closer to origin hence insert before current, and then go to the next unordered item
-                        orderedList.insert(unorderedList.getCurrent().getData());
-                        break;
-                    } else {
-                        /* Until now, j will always be 0 if area is smaller
-                            So the last item will always be appended, but then
-                            we need to check if items after that will be inserted
-                            in the correct spot, hence increasing the size once
-                            appended.
-                         */
-                        if(j == orderedList.getSize()-1) {
-                            orderedList.append(unorderedList.getCurrent().getData());
-                            j = orderedList.getSize();
-                        }
+        Iterator<PlanarShape> sort = unorderedList.iterator();
 
-                        orderedList.next();
-                    }
-                }
-            }
-            unorderedList.next();
+        while(sort.hasNext()) {
+            orderedList.insert(sort.next());
         }
+
+//        //Loop through each item in unordered list and place in new list
+//        for(int i = 0; i < unorderedList.getSize(); i++) {
+//            //if list is empty then we dont care where the first item goes so append will suffice
+//            if(orderedList.getSize() == 0) {
+//                orderedList.append(unorderedList.getCurrent().getData());
+//            } else {
+//                //ensure we are checking from the start of the list
+//                orderedList.reset();
+//                //Loop through ordered list to find where to insert the current item
+//                for(int j = 0; j < orderedList.getSize(); j++) {
+//                    if (orderedList.getCurrent().getData().compare(unorderedList.getCurrent().getData())) {
+//                        //Area is smaller or closer to origin hence insert before current, and then go to the next unordered item
+//                        orderedList.insert(unorderedList.getCurrent().getData());
+//                        break;
+//                    } else {
+//                        /* Until now, j will always be 0 if area is smaller
+//                            So the last item will always be appended, but then
+//                            we need to check if items after that will be inserted
+//                            in the correct spot, hence increasing the size once
+//                            appended.
+//                         */
+//                        if(j == orderedList.getSize()-1) {
+//                            orderedList.append(unorderedList.getCurrent().getData());
+//                            j = orderedList.getSize();
+//                        }
+//
+//                        orderedList.next();
+//                    }
+//                }
+//            }
+//            unorderedList.next();
+//        }
     }
 }

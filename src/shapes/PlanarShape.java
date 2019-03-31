@@ -1,5 +1,7 @@
 package shapes;
 
+import data.CompareShape;
+
 /*
  * Class: 			shapes.PlanarShape.java
  * Name:			Jack Mennie
@@ -8,7 +10,7 @@ package shapes;
  					defines abstract methods for polygon, circle and semi-circle
  					implements comparable for comparing if two shapes are smaller, bigger or equal.
  */
-public abstract class PlanarShape implements Comparable<PlanarShape> {
+public abstract class PlanarShape implements CompareShape<PlanarShape> {
     public abstract String toString();
     public abstract float area();
     public abstract float originDistance();
@@ -24,19 +26,19 @@ public abstract class PlanarShape implements Comparable<PlanarShape> {
      * @return true/false
      */
     @Override
-    public int compareTo(PlanarShape shape) {
+    public boolean compareTo(PlanarShape shape) {
         float min = this.area() - this.area()*0.0005f; //0.05%
         float max = this.area() + this.area()*0.0005f;
 
         if(min <= shape.area() && shape.area() <= max) {
             if(shape.originDistance() < this.originDistance()) {
-                return 1;
+                return true;
             }
 
         } else if(shape.area() < this.area()) {
-            return 1;
+            return false;
         }
 
-        return 0;
+        return false;
     }
 }

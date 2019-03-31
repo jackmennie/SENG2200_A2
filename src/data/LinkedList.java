@@ -1,6 +1,5 @@
 package data;
 
-import shapes.Polygon;
 
 import java.util.Iterator;
 
@@ -14,8 +13,8 @@ import java.util.Iterator;
  */
 
 public class LinkedList<T> implements Iterable<T> {
-    private Node<T> sentinel;
-    private int size;
+    protected Node<T> sentinel;
+    protected int size;
 
     /**
      * Creates the sentinel node
@@ -69,16 +68,16 @@ public class LinkedList<T> implements Iterable<T> {
      *  and then removes that node
      * @return
      */
-    public Node pop() {
-        Node returnNode = new Node(current.getData());
-        Node temp = new Node(current.getNext().getData());
+    public Node pop(LinkedListIterator iter) {
+//        Node returnNode = new Node(iter.current.getData());
+//        Node temp = new Node(iter.current.getNext().getData());
+//
+//        current.getPrevious().setNext(current.getNext());
+//        current.getNext().setPrevious(current.getPrevious());
+//
+//        current = temp;
 
-        current.getPrevious().setNext(current.getNext());
-        current.getNext().setPrevious(current.getPrevious());
-
-        current = temp;
-
-        return returnNode;
+        return null;
     }
 
     /**
@@ -92,19 +91,46 @@ public class LinkedList<T> implements Iterable<T> {
     /**
      * Duplicated code for append and prepend
      * This adds an initial node to the list
-     * @param poly
+     * @param data
      */
     private void createNewList(T data) {
-        Node<T> current = new Node<>(data);
-        current.setNext(sentinel);
-        current.setPrevious(sentinel);
-        sentinel.setNext(current);
-        sentinel.setPrevious(current);
+        Node<T> temp = new Node<>(data);
+        temp.setNext(sentinel);
+        temp.setPrevious(sentinel);
+        sentinel.setNext(temp);
+        sentinel.setPrevious(temp);
         size++;
     }
 
     @Override
-    public Iterator<T> iterator() {
-        return null;
+    public LinkedListIterator iterator() {
+        return new LinkedListIterator();
+    }
+
+    protected class LinkedListIterator implements Iterator<T> {
+        private Node<T> current; //Iterator node
+
+        private LinkedListIterator() {
+            super();
+            current = sentinel;
+        }
+
+        @Override
+        public boolean hasNext() {
+            if (current.getNext()!=sentinel) //checks for all items until list has reached sentinel.
+                return true;
+            else
+                return false;
+        }
+
+        /**
+         * sets current to current.getNext()
+         * returns the currents data.
+         */
+        @Override
+        public T next() {
+            current = current.getNext();
+            return current.getData();
+        }
     }
 }
