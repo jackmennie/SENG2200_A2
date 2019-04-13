@@ -1,10 +1,15 @@
 package data;
 
 public class SortedLinkedList<T extends CompareShape<T>> extends LinkedList<T> {
-    public void insert(T current) {
+
+    public SortedLinkedList() {
+        super();
+    }
+
+    public void insertInOrder(T current) {
 
 //            LinkedListIterator iter = this.iterator();
-//            while(iter.hasNext()) {
+//            while(iter1ef.hasNext()) {
 //                T item = iter.next(); //set the current item in the SORTED list to item
 //
 //

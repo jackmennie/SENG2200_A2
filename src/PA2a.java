@@ -12,6 +12,7 @@
 
 import data.LinkedList;
 import data.SortedLinkedList;
+import jdk.internal.util.xml.impl.Input;
 import shapes.*;
 
 import java.io.BufferedReader;
@@ -23,7 +24,7 @@ import java.util.Scanner;
 public class PA2a {
     private Scanner input;
     private LinkedList<PlanarShape> unorderedList;
-    private LinkedList<PlanarShape> orderedList = new SortedLinkedList<>();
+    private LinkedList<PlanarShape> orderedList;
 
     public static void main(String[] args) {
         PA2a app = new PA2a();
@@ -53,7 +54,7 @@ public class PA2a {
      */
     private void setUp(String file)  {
         unorderedList = new LinkedList<>();
-
+        orderedList = new SortedLinkedList<>();
 
         try {
             input = new Scanner(new BufferedReader(new FileReader("src/"+ file)));
@@ -81,79 +82,181 @@ public class PA2a {
         //ENUM InputType which determines what step to add the data to
         InputType inputType = InputType.SHAPE;
 
-        while(input.hasNext()) {
-            String value  = input.next(); //set the value to the input.next so it can be reused later
+        /* New design, split input in array list so we can directly call the shape factory and create the shape in there
+         * The current design from assignment 1 will be too complicated to extend because it is optimised
+         * for a polygon, I attempted to keep the same design, but had a check for the instance type, which worked
+         * but if we added more shapes that required different reading in implementation then there will be a lot of if
+         * statements which would be difficult to maintain.
+         */
 
-            //Ignore space characters
-            if(value.equals(" ")) {
-                continue;
-            }
+       // StringBuilder shapeData = new StringBuilder();
+        int x = 0;
+        while(input.hasNextLine()) {
+            String shapeData = input.nextLine();
+            //shapeData.append(input.nextLine());
 
+            System.out.println("SHAPE: " + x + " " + shapeData);
 
-            //Switch through the steps in the create process
-            //Each step will go onto the next process. e.g POLYGON -> SIZE
-            switch (inputType) {
-                case SHAPE:
-                    //Creates a new shape
-                    shape = shapeFactory(value);
-
-                    //To keep the same flow, this checks if the type requires the size or not.
-                    if(requireSize(shape)) {
-                        inputType = InputType.SIZE;
-                    } else {
-                        inputType = InputType.XCOORDINATE;
-                    }
-
-                    break;
-                case SIZE:
-                    //Sets the size of the array in polygon
-                    shape.setSize(Integer.parseInt(value));
-                    inputType = InputType.XCOORDINATE;
-                    break;
-                case XCOORDINATE:
-                    //Sets the x-coordinate of a point
-                    point.setXCoordinate(Float.parseFloat(value));
-                    inputType = InputType.YCOORDINATE;
-                    break;
-                case YCOORDINATE:
-                    //Sets the y-coordinate of a point
-                    point.setYCoordinate(Float.parseFloat(value));
-
-                    //shapes.Point now has two values, so add to shapes.Polygon
-                    shape.addPoint(point, position);
-
-                    //Reset point so we don't get any reference issues
-                    point = new Point();
-                    position++;
-
-                    //Check if all points have been added or not
-                    if(position == shape.getSize()-1) {
-                        //All points have been added, hence:
-
-                        shape.addFirstPoint(); //add the first point to the array
-                        unorderedList.append(shape); //append polygon to the list
-
-                        //Set the input type back to polygon to add a new polygon
-                        inputType = InputType.SHAPE;
-                        position = 0; //reset position to add items to the start of the array
-                    } else {
-                        //More points to be added
-                        if(requireRadius(shape)) {
-                            inputType = InputType.RADIUS;
-                        } else {
-                            inputType = InputType.XCOORDINATE;
-                        }
-                    }
-                    break;
-            }
+            unorderedList.append(shapeFactory(shapeData));
+            //shapes = new StringBuilder();
+            x++;
         }
+
+
+
+
+
+//        while(input.hasNext()) {
+//            String value  = input.next(); //set the value to the input.next so it can be reused later
+//
+//            //Ignore space characters
+//            if(value.equals(" ")) {
+//                continue;
+//            }
+//
+//            //Switch through the steps in the create process
+//            //Each step will go onto the next process. e.g POLYGON -> SIZE
+//            switch (inputType) {
+//                case SHAPE:
+//                    System.out.println("CREATING A SHAPE: " + value);
+//                    //Creates a new shape
+//                    shape = shapeFactory(value);
+//
+//                    //To keep the same flow, this checks if the type requires the size or not.
+//                    if(requireSize(shape)) {
+//                        System.out.println("\t Shape is a polygon");
+//                        inputType = InputType.SIZE;
+//                    } else {
+//                        System.out.println("\t Shape is not a polygon");
+//                        inputType = InputType.XCOORDINATE;
+//                    }
+//
+//                    break;
+//                case SIZE:
+//                    //Sets the size of the array in polygon
+//                    shape.setSize(Integer.parseInt(value));
+//                    inputType = InputType.XCOORDINATE;
+//                    break;
+//                case XCOORDINATE:
+//                    //Sets the x-coordinate of a point
+//                    System.out.println("\t Adding x value: " + value);
+//                    point.setXCoordinate(Float.parseFloat(value));
+//                    inputType = InputType.YCOORDINATE;
+//                    break;
+//                case YCOORDINATE:
+//                    //Sets the y-coordinate of a point
+//                    System.out.println("\t Adding y value: " + value);
+//                    point.setYCoordinate(Float.parseFloat(value));
+//
+//                    System.out.println("\t Adding point to the shape: " + point.toString() +  ", Pos: "+  position);
+//                    //shapes.Point now has two values, so add to shape
+//                    shape.addPoint(point, position);
+//
+//                    //Reset point so we don't get any reference issues
+//                    point = new Point();
+//                    position++;
+//
+//                    if(!requireRadius(shape)) {
+//                        //Check if all points have been added or not
+//                        if (position == shape.getSize() - 1) {
+//                            //All points have been added, hence:
+//
+//                            shape.addFirstPoint(); //add the first point to the array
+//                            unorderedList.append(shape); //append polygon to the list
+//
+//                            //Set the input type back to polygon to add a new polygon
+//                            inputType = InputType.SHAPE;
+//                            position = 0; //reset position to add items to the start of the array
+//                        } else {
+//                            //More points to be added
+//                            inputType = InputType.XCOORDINATE;
+//
+//                        }
+//                    } else {
+//                        inputType = InputType.RADIUS;
+//                    }
+//                    break;
+//                case RADIUS:
+//                    System.out.println("Adding radius: " + value);
+//                    ((Circle)shape).addRadius(Float.parseFloat(value));
+//
+//                    unorderedList.append(shape);
+//                    inputType = InputType.SHAPE;
+//                    position = 0;
+//                    break;
+//            }
+//        }
         input.close();
     }
 
     private PlanarShape shapeFactory(String input) {
-        switch(input) {
-            case "P":
-                return new Polygon();
+        String[] shapeData = input.split(" ");
+
+        for(int i = 0; i<shapeData.length;i++) {
+            System.out.print(shapeData[i] + "|");
+        }
+
+        System.out.println("\n\n");
+
+        Point point = new Point();
+
+        switch(Shapes.getShape(shapeData[0])) {
+            case POLYGON:
+                //Polygon will look like P SIZE X1 Y1 ... Xn Yn
+                //                       0  1   2  3  ... n-1 n
+                PlanarShape polygon = new Polygon();
+                InputType coordinate = InputType.XCOORDINATE;   //Set the first coordinate to be stored in x
+                polygon.setSize(Integer.parseInt(shapeData[1])); //Set the size of the polygon
+
+
+
+                System.out.println("\tSize: " + (polygon.getSize()-1));
+
+                //We need to calculate how many points to be added
+                //If the size is 6 (ie. there is 6 points to be added), then we have 12 values to be added (x,y) for each point
+                int loopSize = (polygon.getSize()-1) * 2 + 1;
+
+                //Add all the points, i=2 because its the first point value in shapeData
+                for(int i = 2; i <= loopSize; i++) {
+                    System.out.print("\t["+i+"/"+loopSize+"] Adding points [");
+                    switch(coordinate) {
+                        case XCOORDINATE:
+                            System.out.print("x] value: ");
+                            point.setXCoordinate(Float.parseFloat(shapeData[i])); //Add the value for the XCoordinate
+                            System.out.println(point.getXCoordinate());
+                            coordinate = InputType.YCOORDINATE; //Make sure we go to the YCoordinate next
+                            break;
+                        case YCOORDINATE:
+                            System.out.print("y] value: ");
+                            point.setYCoordinate(Float.parseFloat(shapeData[i])); //Add the value for the YCoordinate
+                            System.out.println(point.getYCoordinate());
+
+                            System.out.println("\tPosition to be added: " + ((i-2)/2));
+
+                            /** Insert created point to the shape at the correct index
+                             * For a size 6 shape, i can be max 13, but our array for points is size 6 (including last point)
+                             * Hence we need to ensure we don't add at index=13 or this will break.
+                             * To add the final point (not including the first point as last), we need to add it to index=5
+                             * Hence 13-2 = 11 / 2 = 5.5
+                             * Since it is a integer, the decimal point gets taken away, hence
+                             * the final value is 5.
+                             */
+                            polygon.addPoint(point, (i-2)/2);
+
+                            point = new Point(); //reset point
+                            coordinate = InputType.XCOORDINATE; //go back to add another XCoordinate
+                            break;
+                    }
+                }
+
+                //Once finished, add the first point to the last point
+                polygon.addFirstPoint();
+                //System.out.println("\tCompleted shape creation: " + polygon.toString());
+                return polygon;
+            case CIRCLE:
+                return new Circle();
+            case SEMICIRCLE:
+                return new SemiCircle();
             default:
                 return null;
         }
@@ -216,7 +319,7 @@ public class PA2a {
         Iterator<PlanarShape> sort = unorderedList.iterator();
 
         while(sort.hasNext()) {
-            orderedList.insert(sort.next());
+            ((SortedLinkedList)orderedList).insertInOrder(sort.next());
         }
 
 //        //Loop through each item in unordered list and place in new list
