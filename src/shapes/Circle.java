@@ -2,7 +2,7 @@ package shapes;
 
 public class Circle extends PlanarShape {
     private Point centre;
-    float radius;
+    double radius;
 
     /**
      * @name shapes.Circle
@@ -26,12 +26,12 @@ public class Circle extends PlanarShape {
 
     /**
      * @name addRadius
-     * @param parseFloat
-     * Precondition: parseFloat is parsed in from input
+     * @param parsedouble
+     * Precondition: parsedouble is parsed in from input
      * Postcondition: sets the radius of the circle
      */
-    public void addRadius(float parseFloat) {
-        radius = parseFloat;
+    public void addRadius(double parsedouble) {
+        radius = parsedouble;
     }
 
     /**
@@ -56,8 +56,8 @@ public class Circle extends PlanarShape {
      * Postcondition:	calculates the area of the circle
      */
     @Override
-    public float area() {
-        return (float)(Math.PI * Math.pow(radius, 2));
+    public double area() {
+        return (double)(Math.PI * Math.pow(radius, 2));
     }
 
     /**
@@ -68,7 +68,7 @@ public class Circle extends PlanarShape {
      * Postcondition: returns the centres distance from origin - radius.
      */
     @Override
-    public float originDistance() {
+    public double originDistance() {
         return centre.getDistance()-radius;
     }
 

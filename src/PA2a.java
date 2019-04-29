@@ -200,11 +200,11 @@ public class PA2a {
                 for(int i = 2; i <= loopSize; i++) {
                     switch(coordinate) {
                         case XCOORDINATE:
-                            point.setXCoordinate(Float.parseFloat(shapeData[i])); //Add the value for the XCoordinate
+                            point.setXCoordinate(Double.parseDouble(shapeData[i])); //Add the value for the XCoordinate
                             coordinate = InputType.YCOORDINATE; //Make sure we go to the YCoordinate next
                             break;
                         case YCOORDINATE:
-                            point.setYCoordinate(Float.parseFloat(shapeData[i])); //Add the value for the YCoordinate
+                            point.setYCoordinate(Double.parseDouble(shapeData[i])); //Add the value for the YCoordinate
 
                             /** Insert created point to the shape at the correct index
                              * For a size 6 shape, i can be max 13, but our array for points is size 6 (including last point)
