@@ -1,7 +1,5 @@
 package shapes;
 
-import data.CompareShape;
-
 /*
  * Class: 			shapes.PlanarShape.java
  * Name:			Jack Mennie
