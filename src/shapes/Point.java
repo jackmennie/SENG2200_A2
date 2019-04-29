@@ -9,8 +9,8 @@ package shapes;
  * 				Returns point to string as (x,y)
  */
 public class Point {
-    private float xCoordinate;
-    private float yCoordinate;
+    private double xCoordinate;
+    private double yCoordinate;
 
 
     /**
@@ -19,7 +19,7 @@ public class Point {
 	 * Precondition: 
 	 * Postcondition: sets the point x of the polygon
 	 */
-	public void setXCoordinate(float xValue) {
+	public void setXCoordinate(double xValue) {
 		this.xCoordinate = xValue;	
 	}
 	
@@ -29,7 +29,7 @@ public class Point {
 	 * Precondition: 
 	 * Postcondition: sets the point y of the polygon
 	 */
-	public void setYCoordinate(float yValue) {
+	public void setYCoordinate(double yValue) {
 		this.yCoordinate = yValue;	
 	}
 	
@@ -39,7 +39,7 @@ public class Point {
 	 * Precondition: X is instantiated 
 	 * Postcondition: returns X
 	 */
-	public float getXCoordinate() {
+	public double getXCoordinate() {
 		return xCoordinate;
 	}
 	
@@ -49,7 +49,7 @@ public class Point {
 	 * Precondition: Y is instantiated
 	 * Postcondition: returns Y
 	 */
-	public float getYCoordinate() {
+	public double getYCoordinate() {
 		return yCoordinate;
 	}
 	
@@ -59,10 +59,10 @@ public class Point {
 	 * Precondition: x and y both have a set value
 	 * Postcondition: returns the distance of point from origin.
 	 */
-	public float getDistance() {
-        float x = (float)Math.pow(0.0f - getXCoordinate(), 2.0f);
-        float y = (float)Math.pow(0.0f - getYCoordinate(), 2.0f);
-		return (float)Math.sqrt(x + y);
+	public double getDistance() {
+        double x = Math.pow(0.0 - getXCoordinate(), 2.0);
+        double y = Math.pow(0.0 - getYCoordinate(), 2.0);
+		return Math.sqrt(x + y);
 	}
 	
 	/**

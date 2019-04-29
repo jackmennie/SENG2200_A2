@@ -12,7 +12,6 @@
 
 import data.LinkedList;
 import data.SortedLinkedList;
-import jdk.internal.util.xml.impl.Input;
 import shapes.*;
 
 import java.io.BufferedReader;
@@ -70,36 +69,20 @@ public class PA2a {
     private void createList() {
         System.out.println("1. Creating unordered list");
 
-        Point point = new Point();      //point is required to be instantiated for cases to work
-        PlanarShape shape = new Polygon();   //PlanarShape is required to be instantiated for cases to work hence default to polygon
-
-        /* position is used to add the point to the certain index of the array
-           This is done because we set the size of the array after we create the polygon
-           The position variable is also used to append the first point to the last point.
-         */
-        int position = 0;
-
-        //ENUM InputType which determines what step to add the data to
-        InputType inputType = InputType.SHAPE;
-
-        /* New design, split input in array list so we can directly call the shape factory and create the shape in there
+        /**
+         * New design, split input in array list so we can directly call the shape factory and create the shape in there
          * The current design from assignment 1 will be too complicated to extend because it is optimised
          * for a polygon, I attempted to keep the same design, but had a check for the instance type, which worked
          * but if we added more shapes that required different reading in implementation then there will be a lot of if
          * statements which would be difficult to maintain.
          */
 
-       // StringBuilder shapeData = new StringBuilder();
-        int x = 0;
         while(input.hasNextLine()) {
             String shapeData = input.nextLine();
-            //shapeData.append(input.nextLine());
 
-            System.out.println("SHAPE: " + x + " " + shapeData);
+            System.out.println("SHAPE: " + shapeData);
 
             unorderedList.append(shapeFactory(shapeData));
-            //shapes = new StringBuilder();
-            x++;
         }
 
 
@@ -201,37 +184,27 @@ public class PA2a {
         Point point = new Point();
 
         switch(Shapes.getShape(shapeData[0])) {
-            case POLYGON:
-                //Polygon will look like P SIZE X1 Y1 ... Xn Yn
-                //                       0  1   2  3  ... n-1 n
-                PlanarShape polygon = new Polygon();
+            case POLYGON: //Polygon will look like:    P SIZE X1 Y1 ... Xn Yn
+                PlanarShape polygon = new Polygon(); //0   1  2  3     n-1 n
                 InputType coordinate = InputType.XCOORDINATE;   //Set the first coordinate to be stored in x
                 polygon.setSize(Integer.parseInt(shapeData[1])); //Set the size of the polygon
 
-
-
-                System.out.println("\tSize: " + (polygon.getSize()-1));
-
-                //We need to calculate how many points to be added
-                //If the size is 6 (ie. there is 6 points to be added), then we have 12 values to be added (x,y) for each point
+                /**
+                 * We need to calculate how many points to be added
+                 * If the size is 6 (ie. there is 6 points to be added),
+                 * then we have 12 values to be added (x,y) for each point
+                 */
                 int loopSize = (polygon.getSize()-1) * 2 + 1;
 
                 //Add all the points, i=2 because its the first point value in shapeData
                 for(int i = 2; i <= loopSize; i++) {
-                    System.out.print("\t["+i+"/"+loopSize+"] Adding points [");
                     switch(coordinate) {
                         case XCOORDINATE:
-                            System.out.print("x] value: ");
                             point.setXCoordinate(Float.parseFloat(shapeData[i])); //Add the value for the XCoordinate
-                            System.out.println(point.getXCoordinate());
                             coordinate = InputType.YCOORDINATE; //Make sure we go to the YCoordinate next
                             break;
                         case YCOORDINATE:
-                            System.out.print("y] value: ");
                             point.setYCoordinate(Float.parseFloat(shapeData[i])); //Add the value for the YCoordinate
-                            System.out.println(point.getYCoordinate());
-
-                            System.out.println("\tPosition to be added: " + ((i-2)/2));
 
                             /** Insert created point to the shape at the correct index
                              * For a size 6 shape, i can be max 13, but our array for points is size 6 (including last point)
@@ -249,32 +222,20 @@ public class PA2a {
                     }
                 }
 
-                //Once finished, add the first point to the last point
-                polygon.addFirstPoint();
-                //System.out.println("\tCompleted shape creation: " + polygon.toString());
+                polygon.addFirstPoint(); //Once finished, add the first point to the last point
                 return polygon;
             case CIRCLE:
+                /**
+                 * NOT REQUIRED FOR PA2a
+                 */
                 return new Circle();
             case SEMICIRCLE:
+                /**
+                 * NOT REQUIRED FOR PA2a
+                 */
                 return new SemiCircle();
             default:
                 return null;
-        }
-    }
-
-    private boolean requireSize(PlanarShape shape) {
-        if(shape instanceof Polygon)  {
-            return true;
-        }
-
-        return false;
-    }
-
-    private boolean requireRadius(PlanarShape shape) {
-        if(shape instanceof Circle) {
-            return true;
-        } else {
-            return false;
         }
     }
 

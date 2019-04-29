@@ -2,7 +2,7 @@ package shapes;/*
  * Name: 		Jack Mennie
  * Number:		c3238040
  * Class:		shapes.Polygon
- * Implmements:	ComparePoly
+ * Implements:	ComparePoly
  * Description:	stores point objects in an array vertices
  * 				calculates the area of the polygon
  * 				calculates the closest vertice to origin
@@ -54,12 +54,12 @@ public class Polygon extends PlanarShape {
      * @return area
      */
     @Override
-    public float area() {
-        float sum = 0.0f;
+    public double area() {
+        double sum = 0.0f;
 
         for(int i = 0; i < vertices.length - 1; i++) {
-            float x = vertices[i+1].getXCoordinate() + vertices[i].getXCoordinate();
-            float y = vertices[i+1].getYCoordinate() - vertices[i].getYCoordinate();
+            double x = vertices[i+1].getXCoordinate() + vertices[i].getXCoordinate();
+            double y = vertices[i+1].getYCoordinate() - vertices[i].getYCoordinate();
 
             sum += x*y;
         }
@@ -72,8 +72,8 @@ public class Polygon extends PlanarShape {
      * @return distance
      */
     @Override
-    public float originDistance() {
-        float distance = vertices[0].getDistance();
+    public double originDistance() {
+        double distance = vertices[0].getDistance();
 
         for(Point point : vertices) {
             if (point.getDistance() < distance)

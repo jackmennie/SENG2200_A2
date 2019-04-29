@@ -67,8 +67,8 @@ public class SemiCircle extends PlanarShape {
      * Postcondition:	calculates the area of the semi-circle
      */
     @Override
-    public float area() {
-        return (float)(Math.PI * Math.pow(calcRadius(), 2))/2;
+    public double area() {
+        return Math.PI * Math.pow(calcRadius(), 2)/2;
     }
 
     /**
@@ -83,9 +83,9 @@ public class SemiCircle extends PlanarShape {
      *                - returns that value
      */
     @Override
-    public float originDistance() {
-        float rise = vertices[1].getYCoordinate() - vertices[0].getYCoordinate();
-        float run = vertices[1].getXCoordinate() - vertices[0].getXCoordinate();
+    public double originDistance() {
+        double rise = vertices[1].getYCoordinate() - vertices[0].getYCoordinate();
+        double run = vertices[1].getXCoordinate() - vertices[0].getXCoordinate();
 
         Point extrema1 = new Point();
         Point extrema2 = new Point();
@@ -95,7 +95,7 @@ public class SemiCircle extends PlanarShape {
         extrema2.setXCoordinate(vertices[0].getXCoordinate()+rise);
         extrema2.setYCoordinate(vertices[0].getYCoordinate()-run);
 
-        float distance = vertices[0].getDistance();
+        double distance = vertices[0].getDistance();
 
         //Check the closest point to origin
         for(int i = 0; i < vertices.length; i++) {
@@ -117,10 +117,10 @@ public class SemiCircle extends PlanarShape {
      * Precondition: semi-circle has both points defined
      * Postcondition: calculates the radius using the distance formula.
      */
-    private float calcRadius() {
-        float radius = (float)Math.pow((vertices[1].getXCoordinate()-vertices[0].getXCoordinate()), 2);
-        radius = radius + (float)Math.pow((vertices[1].getYCoordinate()-vertices[0].getYCoordinate()), 2);
-        radius = (float)Math.sqrt(radius);
+    private double calcRadius() {
+        double radius = Math.pow((vertices[1].getXCoordinate()-vertices[0].getXCoordinate()), 2);
+        radius = radius + Math.pow((vertices[1].getYCoordinate()-vertices[0].getYCoordinate()), 2);
+        radius = Math.sqrt(radius);
 
         return radius;
     }
