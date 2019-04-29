@@ -67,8 +67,6 @@ public class PA2a {
      * The data is appended to the list unorderedlist
      */
     private void createList() {
-        System.out.println("1. Creating unordered list");
-
         /**
          * New design, split input in array list so we can directly call the shape factory and create the shape in there
          * The current design from assignment 1 will be too complicated to extend because it is optimised
@@ -248,7 +246,7 @@ public class PA2a {
     private void printList(String type) {
         switch(type) {
             case "unordered":
-                System.out.println("2. Printing unordered list");
+                System.out.println("Printing unordered list");
 
                 Iterator<PlanarShape> unorderedListIterator = unorderedList.iterator();
 
@@ -258,7 +256,7 @@ public class PA2a {
 
                 break;
             case "ordered":
-                System.out.println("4. Printing ordered list");
+                System.out.println("Printing ordered list");
 
                 Iterator<PlanarShape> orderedListIterator = orderedList.iterator();
 
@@ -275,8 +273,6 @@ public class PA2a {
      * Order list goes through the unorderedList and inserts into the orderedList in ascending order.
      */
     private void orderList() {
-        System.out.println("3. Ordering the list");
-
         Iterator<PlanarShape> sort = unorderedList.iterator();
 
         while(sort.hasNext()) {
