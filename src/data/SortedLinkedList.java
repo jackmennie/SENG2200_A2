@@ -1,6 +1,8 @@
 package data;
 
-public class SortedLinkedList<T extends CompareShape<T>> extends LinkedList<T> {
+import shapes.PlanarShape;
+
+public class SortedLinkedList<T extends PlanarShape> extends LinkedList<T> {
 
     public SortedLinkedList() {
         super();
@@ -18,7 +20,7 @@ public class SortedLinkedList<T extends CompareShape<T>> extends LinkedList<T> {
                 System.out.println("current node is not sentinel");
                 //checks item in sorted list to the item passed in.
                 //if item passed in is smaller, then add
-                if(newNode.getData().compareTo(currentNode.getData())) {
+                if(newNode.getData().compareTo(currentNode.getData()) <= 0) {
                     System.out.println("data is bigger :)");
                     //insert
                     newNode.setNext(currentNode);

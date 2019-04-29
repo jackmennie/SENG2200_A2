@@ -10,7 +10,7 @@ import data.CompareShape;
  					defines abstract methods for polygon, circle and semi-circle
  					implements comparable for comparing if two shapes are smaller, bigger or equal.
  */
-public abstract class PlanarShape implements CompareShape<PlanarShape> {
+public abstract class PlanarShape implements Comparable<PlanarShape> {
     public abstract String toString();
     public abstract double area();
     public abstract double originDistance();
@@ -26,19 +26,23 @@ public abstract class PlanarShape implements CompareShape<PlanarShape> {
      * @return true/false
      */
     @Override
-    public boolean compareTo(PlanarShape shape) {
-        double min = this.area() - this.area()*0.005f; //0.05%
-        double max = this.area() + this.area()*0.005f;
+    public int compareTo(PlanarShape shape) {
+        double min = this.area() - this.area()*0.005; //0.05%
+        double max = this.area() + this.area()*0.005;
 
+        //if area is within range
         if(min <= shape.area() && shape.area() <= max) {
             if(shape.originDistance() < this.originDistance()) {
-                return true;
-            }
-
-        } else if(shape.area() < this.area()) {
-            return false;
+                return 0; //origin is closer
+            } else {
+                 return 1;
+             }
+        }
+        // area is greater
+        else if(shape.area() < this.area()) {
+            return 1; //Inserted shape has less area than current
         }
 
-        return false;
+        return -1; //Greater than
     }
 }
