@@ -23,7 +23,7 @@ import java.util.Scanner;
 public class PA2a {
     private Scanner input;
     private LinkedList<PlanarShape> unorderedList;
-    private LinkedList<PlanarShape> orderedList;
+    private SortedLinkedList<PlanarShape> orderedList;
 
     public static void main(String[] args) {
         PA2a app = new PA2a();
@@ -78,7 +78,7 @@ public class PA2a {
         while(input.hasNextLine()) {
             String shapeData = input.nextLine();
 
-            System.out.println("SHAPE: " + shapeData);
+//            System.out.println("SHAPE: " + shapeData);
 
             unorderedList.append(shapeFactory(shapeData));
         }
@@ -173,11 +173,11 @@ public class PA2a {
     private PlanarShape shapeFactory(String input) {
         String[] shapeData = input.split(" ");
 
-        for(int i = 0; i<shapeData.length;i++) {
-            System.out.print(shapeData[i] + "|");
-        }
-
-        System.out.println("\n\n");
+//        for(int i = 0; i<shapeData.length;i++) {
+//            System.out.print(shapeData[i] + "|");
+//        }
+//
+//        System.out.println("\n\n");
 
         Point point = new Point();
 
@@ -276,7 +276,7 @@ public class PA2a {
         Iterator<PlanarShape> sort = unorderedList.iterator();
 
         while(sort.hasNext()) {
-            ((SortedLinkedList)orderedList).insertInOrder(sort.next());
+            orderedList.insertInOrder(sort.next());
         }
     }
 }

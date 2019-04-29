@@ -27,8 +27,8 @@ public abstract class PlanarShape implements CompareShape<PlanarShape> {
      */
     @Override
     public boolean compareTo(PlanarShape shape) {
-        double min = this.area() - this.area()*0.0005f; //0.05%
-        double max = this.area() + this.area()*0.0005f;
+        double min = this.area() - this.area()*0.005f; //0.05%
+        double max = this.area() + this.area()*0.005f;
 
         if(min <= shape.area() && shape.area() <= max) {
             if(shape.originDistance() < this.originDistance()) {

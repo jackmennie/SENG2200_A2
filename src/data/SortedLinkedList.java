@@ -6,26 +6,39 @@ public class SortedLinkedList<T extends CompareShape<T>> extends LinkedList<T> {
         super();
     }
 
-    public void insertInOrder(T current) {
-            LinkedListIterator iter = this.iterator();
-            while(iter.hasNext()) {
-                T item = iter.next(); //set the current item in the SORTED list to item
+    public void insertInOrder(T data) {
+        System.out.println("\t\tIn the insertion sort function");
+        Node<T> newNode = new Node<>(data);
+        Node<T> currentNode = this.sentinel.getNext();
 
+        System.out.println("Comparing data in: " + newNode.getData() + " against current: " + currentNode.getData());
 
+            //LinkedListIterator iter = this.iterator();
+            while(currentNode != this.sentinel) {
+                System.out.println("current node is not sentinel");
                 //checks item in sorted list to the item passed in.
                 //if item passed in is smaller, then add
-                if(item.compareTo(current)) {
-                    //insert(current, iter);
-                    return;
+                if(newNode.getData().compareTo(currentNode.getData())) {
+                    System.out.println("data is bigger :)");
+                    //insert
+                    newNode.setNext(currentNode);
+                    newNode.setPrevious(currentNode.getPrevious());
+                    currentNode.getPrevious().setNext(newNode);
+                    currentNode.setPrevious(newNode);
+                    break;
                 }
+
+                currentNode = currentNode.getNext();
             }
 
-            //set the iterator to the sentinel
-            iter = iterator();
-            //add the item passed in before the sentinel.
-            prepend(current);
+            //Last item to be added
+        if (currentNode == this.sentinel) {
+            newNode.setPrevious(this.sentinel.getPrevious());
+            newNode.setNext(this.sentinel);
+            this.sentinel.getPrevious().setNext(newNode);
+            this.sentinel.setPrevious(newNode);
+        }
     }
-
 }
 
 //        //Loop through each item in unordered list and place in new list
