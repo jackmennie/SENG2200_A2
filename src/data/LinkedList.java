@@ -1,6 +1,4 @@
 package data;
-
-
 import java.util.Iterator;
 
 /*
@@ -20,7 +18,7 @@ public class LinkedList<T> implements Iterable<T> {
      * Creates the sentinel node
      */
     public LinkedList() {
-        sentinel = new Node<>();
+        sentinel = new Node<>(null);
         sentinel.setNext(sentinel);
         sentinel.setPrevious(sentinel);
         size = 0;

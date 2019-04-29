@@ -278,38 +278,5 @@ public class PA2a {
         while(sort.hasNext()) {
             ((SortedLinkedList)orderedList).insertInOrder(sort.next());
         }
-
-//        //Loop through each item in unordered list and place in new list
-//        for(int i = 0; i < unorderedList.getSize(); i++) {
-//            //if list is empty then we dont care where the first item goes so append will suffice
-//            if(orderedList.getSize() == 0) {
-//                orderedList.append(unorderedList.getCurrent().getData());
-//            } else {
-//                //ensure we are checking from the start of the list
-//                orderedList.reset();
-//                //Loop through ordered list to find where to insert the current item
-//                for(int j = 0; j < orderedList.getSize(); j++) {
-//                    if (orderedList.getCurrent().getData().compare(unorderedList.getCurrent().getData())) {
-//                        //Area is smaller or closer to origin hence insert before current, and then go to the next unordered item
-//                        orderedList.insert(unorderedList.getCurrent().getData());
-//                        break;
-//                    } else {
-//                        /* Until now, j will always be 0 if area is smaller
-//                            So the last item will always be appended, but then
-//                            we need to check if items after that will be inserted
-//                            in the correct spot, hence increasing the size once
-//                            appended.
-//                         */
-//                        if(j == orderedList.getSize()-1) {
-//                            orderedList.append(unorderedList.getCurrent().getData());
-//                            j = orderedList.getSize();
-//                        }
-//
-//                        orderedList.next();
-//                    }
-//                }
-//            }
-//            unorderedList.next();
-//        }
     }
 }
