@@ -27,41 +27,37 @@ public class LinkedList<T> implements Iterable<T> {
     }
 
     /**
-     * adds a node at the end of the list
+     * adds a node at the start of the list
      * current is still the head of the list
      * @param data
      */
     public void prepend(T data) {
         Node<T> startNode = sentinel.getNext();
-        if(size != 0) {
-            Node<T> temp = new Node<>(data);
-            temp.setNext(startNode);
-            temp.setPrevious(sentinel);
-            startNode.setPrevious(temp);
-            sentinel.setNext(temp);
-            size++;
-        } else {
-            createNewList(data);
-        }
+        Node<T> temp = new Node<>(data);
+
+        temp.setNext(startNode);
+        temp.setPrevious(sentinel);
+        startNode.setPrevious(temp);
+        sentinel.setNext(temp);
+
+        size++;
     }
 
     /**
-     * creates a node at the start of the list
+     * creates a node at the end of the list
      * current is still the head of the list
      * @param data
      */
     public void append(T data) {
         Node<T> endNode = sentinel.getPrevious();
-        if (size != 0) {
-            Node<T> temp = new Node<>(data);
-            temp.setNext(sentinel);
-            temp.setPrevious(endNode);
-            endNode.setNext(temp);
-            sentinel.setPrevious(temp);
-            size++;
-        } else {
-            createNewList(data);
-        }
+        Node<T> temp = new Node<>(data);
+
+        temp.setNext(sentinel);
+        temp.setPrevious(endNode);
+        endNode.setNext(temp);
+        sentinel.setPrevious(temp);
+
+        size++;
     }
 
     /** returns the current node of the list
@@ -88,20 +84,6 @@ public class LinkedList<T> implements Iterable<T> {
         return size;
     }
 
-    /**
-     * Duplicated code for append and prepend
-     * This adds an initial node to the list
-     * @param data
-     */
-    private void createNewList(T data) {
-        Node<T> temp = new Node<>(data);
-        temp.setNext(sentinel);
-        temp.setPrevious(sentinel);
-        sentinel.setNext(temp);
-        sentinel.setPrevious(temp);
-        size++;
-    }
-
     @Override
     public LinkedListIterator iterator() {
         return new LinkedListIterator();
@@ -109,7 +91,6 @@ public class LinkedList<T> implements Iterable<T> {
 
     protected class LinkedListIterator implements Iterator<T> {
         private Node<T> current; //Iterator node
-
         private LinkedListIterator() {
             super();
             current = sentinel;
