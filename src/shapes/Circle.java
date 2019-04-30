@@ -9,6 +9,7 @@ public class Circle extends PlanarShape {
      * Constructor: instantiates centre and radius
      */
     public Circle(){
+        super();
         centre = new Point();
         radius = 0;
     }
@@ -21,17 +22,17 @@ public class Circle extends PlanarShape {
      */
     @Override
     public void addPoint(Point point, int position){
-        centre = point;
+        this.centre = point;
     }
 
     /**
      * @name addRadius
-     * @param parsedouble
+     * @param radius
      * Precondition: parsedouble is parsed in from input
      * Postcondition: sets the radius of the circle
      */
-    public void addRadius(double parsedouble) {
-        radius = parsedouble;
+    public void addRadius(double radius) {
+        this.radius = radius;
     }
 
     /**
@@ -57,7 +58,7 @@ public class Circle extends PlanarShape {
      */
     @Override
     public double area() {
-        return (double)(Math.PI * Math.pow(radius, 2));
+        return (Math.PI * Math.pow(radius, 2));
     }
 
     /**

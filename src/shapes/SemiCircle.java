@@ -3,6 +3,17 @@ package shapes;
 public class SemiCircle extends PlanarShape {
     private Point[] vertices;
 
+    //TODO REMOVE
+    /**
+     * @name shapes.Circle
+     * Constructor: for testing purposes only
+     */
+    public SemiCircle(){
+        vertices = new Point[2];
+        vertices[0] = new Point();
+        vertices[1] = new Point();
+    }
+
     /**
      * Sets the size of the polygon
      * @param size
@@ -51,7 +62,7 @@ public class SemiCircle extends PlanarShape {
     public String toString() {
         String temp = "";
 
-        for(int i = 0; i < vertices.length-1; i++){
+        for(int i = 0; i < vertices.length; i++){
             temp = temp + vertices[i];
         }
 
