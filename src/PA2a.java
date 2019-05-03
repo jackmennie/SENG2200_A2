@@ -56,7 +56,7 @@ public class PA2a {
         orderedList = new SortedLinkedList<>();
 
         try {
-            input = new Scanner(new BufferedReader(new FileReader("src/"+ file)));
+            input = new Scanner(new BufferedReader(new FileReader(file)));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

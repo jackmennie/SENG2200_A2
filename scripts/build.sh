@@ -9,10 +9,9 @@ createStructure()
 if [ -d ./bin ]
 then
     echo "Path exists, removing existing source files, and creating again"
-    rm bin/data/*
-    echo "shapes"
-    rm bin/shapes/*
-    rm bin/*
+    rm bin/data/*.*
+    rm bin/shapes/*.*
+    rm bin/*.*
     cd bin
     rmdir shapes
     rmdir data
@@ -49,4 +48,4 @@ rm *.java
 cd ../src
 cp *.txt ../bin
 
-echo "Compilation is now complete, run progam with 'java bin/PA2a test.txt' or 'java bin/PA2b b.txt'"
+echo "Compilation is now complete, run progam with 'java PA2a test.txt' or 'java PA2b b.txt'"
